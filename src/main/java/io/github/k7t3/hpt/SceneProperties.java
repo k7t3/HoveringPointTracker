@@ -2,32 +2,34 @@ package io.github.k7t3.hpt;
 
 import javafx.beans.property.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 
 public class SceneProperties {
 
-    private static final Paint DEFAULT_PAINT_FILL = Color.color(0d, 0d, 0d, 0.2);
+    private static final Color DEFAULT_PAINT_COLOR = Color.color(0d, 0d, 0d, 0.2);
 
-    private static final Paint DEFAULT_EDGE_FILL = ((Color) DEFAULT_PAINT_FILL).deriveColor(
+    private static final Color DEFAULT_EDGE_COLOR = ((Color) DEFAULT_PAINT_COLOR).deriveColor(
             1.0, 1.0, 1.0, 1.2);
 
-    private static final Paint DEFAULT_GRID_FILL = Color.SNOW;
+    private static final Color DEFAULT_GRID_FILL = Color.SNOW;
 
-    private static final Paint DEFAULT_SCENE_BORDER_FILL = Color.TRANSPARENT;
+    private static final Color DEFAULT_SCENE_BORDER_FILL = Color.TRANSPARENT;
 
-    private static final Paint DEFAULT_LABEL_FILL = ((Color)DEFAULT_PAINT_FILL).deriveColor(0, 1, 1, 2.4);
+    private static final Color DEFAULT_LABEL_FILL = DEFAULT_PAINT_COLOR.deriveColor(0, 1, 1, 2.4);
 
-    private static final Paint DEFAULT_CLICK_POINT_FILL = Color.SNOW;
+    private static final Color DEFAULT_CLICK_POINT_FILL = Color.SNOW;
 
-    private static final double DEFAULT_WIDTH = 200;
+    private static final double DEFAULT_WIDTH = 300;
 
-    private static final double DEFAULT_HEIGHT = 200;
+    private static final double DEFAULT_HEIGHT = 300;
 
     private static final double DEFAULT_EDGE_WIDTH = 10;
 
     private static final Font DEFAULT_LABEL_FONT = Font.font("monospaced", FontWeight.BOLD, 13);
+
+    private ObjectProperty<Screen> screen;
 
     private DoubleProperty minX;
 
@@ -39,17 +41,17 @@ public class SceneProperties {
 
     private DoubleProperty edgeWidth;
 
-    private ObjectProperty<Paint> paintFill;
+    private ObjectProperty<Color> paintColor;
 
-    private ObjectProperty<Paint> gridFill;
+    private ObjectProperty<Color> gridColor;
 
-    private ObjectProperty<Paint> edgeFill;
+    private ObjectProperty<Color> edgeColor;
 
-    private ObjectProperty<Paint> labelFill;
+    private ObjectProperty<Color> labelColor;
 
-    private ObjectProperty<Paint> clickPointFill;
+    private ObjectProperty<Color> clickPointColor;
 
-    private ObjectProperty<Paint> sceneBorderFill;
+    private ObjectProperty<Color> sceneBorderColor;
 
     private ReadOnlyDoubleWrapper currentX;
 
@@ -57,13 +59,28 @@ public class SceneProperties {
 
     private ObjectProperty<Font> labelFont;
 
+    public Screen getScreen() {
+        return screenProperty().get();
+    }
+
+    public ObjectProperty<Screen> screenProperty() {
+        if (screen == null) {
+            screen = new SimpleObjectProperty<>();
+        }
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screenProperty().set(screen);
+    }
+
     public double getMinX() {
         return minXProperty().get();
     }
 
     public DoubleProperty minXProperty() {
         if (minX == null) {
-            minX = new SimpleDoubleProperty(0);
+            minX = new SimpleDoubleProperty(200);
         }
         return minX;
     }
@@ -78,7 +95,7 @@ public class SceneProperties {
 
     public DoubleProperty minYProperty() {
         if (minY == null) {
-            minY = new SimpleDoubleProperty(0);
+            minY = new SimpleDoubleProperty(200);
         }
         return minY;
     }
@@ -132,79 +149,79 @@ public class SceneProperties {
         this.edgeWidthProperty().set(edgeWidth);
     }
 
-    public Paint getPaintFill() {
-        return paintFillProperty().get();
+    public Color getPaintColor() {
+        return paintColorProperty().get();
     }
 
-    public ObjectProperty<Paint> paintFillProperty() {
-        if (paintFill == null) {
-            paintFill = new SimpleObjectProperty<>(DEFAULT_PAINT_FILL);
+    public ObjectProperty<Color> paintColorProperty() {
+        if (paintColor == null) {
+            paintColor = new SimpleObjectProperty<>(DEFAULT_PAINT_COLOR);
         }
-        return paintFill;
+        return paintColor;
     }
 
-    public void setPaintFill(Paint paintFill) {
-        this.paintFillProperty().set(paintFill);
+    public void setPaintColor(Color paintColor) {
+        this.paintColorProperty().set(paintColor);
     }
 
-    public Paint getGridFill() {
-        return gridFillProperty().get();
+    public Color getGridColor() {
+        return gridColorProperty().get();
     }
 
-    public ObjectProperty<Paint> gridFillProperty() {
-        if (gridFill == null) {
-            gridFill = new SimpleObjectProperty<>(DEFAULT_GRID_FILL);
+    public ObjectProperty<Color> gridColorProperty() {
+        if (gridColor == null) {
+            gridColor = new SimpleObjectProperty<>(DEFAULT_GRID_FILL);
         }
-        return gridFill;
+        return gridColor;
     }
 
-    public void setGridFill(Paint gridFill) {
-        this.gridFillProperty().set(gridFill);
+    public void setGridColor(Color gridColor) {
+        this.gridColorProperty().set(gridColor);
     }
 
-    public Paint getSceneBorderFill() {
-        return sceneBorderFillProperty().get();
+    public Color getSceneBorderColor() {
+        return sceneBorderColorProperty().get();
     }
 
-    public ObjectProperty<Paint> sceneBorderFillProperty() {
-        if (sceneBorderFill == null) {
-            sceneBorderFill = new SimpleObjectProperty<>(DEFAULT_SCENE_BORDER_FILL);
+    public ObjectProperty<Color> sceneBorderColorProperty() {
+        if (sceneBorderColor == null) {
+            sceneBorderColor = new SimpleObjectProperty<>(DEFAULT_SCENE_BORDER_FILL);
         }
-        return sceneBorderFill;
+        return sceneBorderColor;
     }
 
-    public void setSceneBorderFill(Paint sceneBorderFill) {
-        this.sceneBorderFillProperty().set(sceneBorderFill);
+    public void setSceneBorderColor(Color sceneBorderColor) {
+        this.sceneBorderColorProperty().set(sceneBorderColor);
     }
 
-    public Paint getLabelFill() {
-        return labelFillProperty().get();
+    public Color getLabelColor() {
+        return labelColorProperty().get();
     }
 
-    public ObjectProperty<Paint> labelFillProperty() {
-        if (labelFill == null) {
-            labelFill = new SimpleObjectProperty<>(DEFAULT_LABEL_FILL);
+    public ObjectProperty<Color> labelColorProperty() {
+        if (labelColor == null) {
+            labelColor = new SimpleObjectProperty<>(DEFAULT_LABEL_FILL);
         }
-        return labelFill;
+        return labelColor;
     }
 
-    public void setLabelFill(Paint labelFill) {
-        this.labelFillProperty().set(labelFill);
+    public void setLabelColor(Color labelColor) {
+        this.labelColorProperty().set(labelColor);
     }
 
-    public Paint getClickPointFill() {
-        return clickPointFillProperty().get();
+    public Color getClickPointColor() {
+        return clickPointColorProperty().get();
     }
 
-    public ObjectProperty<Paint> clickPointFillProperty() {
-        if (clickPointFill == null) {
-            clickPointFill = new SimpleObjectProperty<>(DEFAULT_CLICK_POINT_FILL);
+    public ObjectProperty<Color> clickPointColorProperty() {
+        if (clickPointColor == null) {
+            clickPointColor = new SimpleObjectProperty<>(DEFAULT_CLICK_POINT_FILL);
         }
-        return clickPointFill;
+        return clickPointColor;
     }
 
-    public void setClickPointFill(Paint clickPointFill) {
-        this.clickPointFillProperty().set(clickPointFill);
+    public void setClickPointColor(Color clickPointColor) {
+        this.clickPointColorProperty().set(clickPointColor);
     }
 
     public double getCurrentX() {
@@ -237,19 +254,19 @@ public class SceneProperties {
         return currentYPropertyWrapper().getReadOnlyProperty();
     }
 
-    public Paint getEdgeFill() {
-        return edgeFillProperty().get();
+    public Color getEdgeColor() {
+        return edgeColorProperty().get();
     }
 
-    public ObjectProperty<Paint> edgeFillProperty() {
-        if (edgeFill == null) {
-            edgeFill = new SimpleObjectProperty<>(DEFAULT_EDGE_FILL);
+    public ObjectProperty<Color> edgeColorProperty() {
+        if (edgeColor == null) {
+            edgeColor = new SimpleObjectProperty<>(DEFAULT_EDGE_COLOR);
         }
-        return edgeFill;
+        return edgeColor;
     }
 
-    public void setEdgeFill(Paint edgeFill) {
-        this.edgeFillProperty().set(edgeFill);
+    public void setEdgeColor(Color edgeColor) {
+        this.edgeColorProperty().set(edgeColor);
     }
 
     public Font getLabelFont() {

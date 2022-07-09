@@ -3,16 +3,11 @@ package io.github.k7t3.hpt;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.scene.text.*;
+import javafx.stage.*;
 
 class ScreenSelectionStage extends Stage {
 
@@ -81,6 +76,7 @@ class ScreenSelectionStage extends Stage {
                 numberText
         );
         group.getChildren().forEach(n -> n.setMouseTransparent(true));
+        group.setMouseTransparent(true);
 
         scene.setFill(Color.TRANSPARENT);
 
@@ -89,7 +85,6 @@ class ScreenSelectionStage extends Stage {
         setY(y);
         setWidth(width);
         setHeight(height);
-        setAlwaysOnTop(true);
     }
 
 }
