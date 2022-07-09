@@ -4,5 +4,5 @@ module HoveringPointTracker {
     requires javafx.graphics;
     requires javafx.fxml;
 
-    opens io.github.k7t3.hpt to javafx.graphics;
+    opens io.github.k7t3.hpt to javafx.graphics, javafx.fxml;
 }

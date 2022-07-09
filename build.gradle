@@ -84,37 +84,6 @@ task deleteInstallerTemp(type: Delete) {
 ////                    '--file-associations', "${projectDir}/buildres/windows/bibtexAssociations.properties"
 //            ]
 //        }
-//
-//        if (OperatingSystem.current().isLinux()) {
-//            imageOptions = [
-//                    '--icon', "${projectDir}/src/main/resources/icon/icon.png",
-//                    '--app-version', "${project.version}",
-//            ]
-//            installerOptions = [
-//                    '--verbose',
-//                    '--vendor', 'k7t3',
-//                    '--app-version', "${project.version}",
-//                    // '--temp', "$buildDir/installer",
-//                    '--linux-menu-group', 'Office;',
-//                    '--linux-rpm-license-type', 'BSD-3',
-//                    // '--license-file', "${projectDir}/LICENSE.md",
-//                    '--description', 'description',
-//                    '--linux-shortcut'
-//            ]
-//        }
-//
-//        if (OperatingSystem.current().isMacOsX()) {
-////            imageOptions = [
-////                    '--icon', "${projectDir}/src/main/resources/icon/piccat.icns"
-////            ]
-//            skipInstaller = true
-//            installerOptions = [
-//                    '--verbose',
-//                    '--vendor', 'k7t3',
-//                    '--mac-package-identifier', 'k7t3hpt',
-//                    '--mac-package-name', 'hpt',
-//                    '--app-version', "${project.version}"
-//            ]
-//        }
+
 //    }
 //}

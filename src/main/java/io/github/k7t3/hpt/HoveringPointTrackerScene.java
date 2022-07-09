@@ -21,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.*;
 import javafx.util.Duration;
 
 import java.util.Iterator;
@@ -137,7 +138,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         sceneBorder = new Rectangle();
         sceneBorder.setFill(Color.TRANSPARENT);
-        sceneBorder.strokeProperty().bind(properties.sceneBorderFillProperty());
+        sceneBorder.strokeProperty().bind(properties.sceneBorderColorProperty());
         sceneBorder.widthProperty().bind(widthProperty());
         sceneBorder.heightProperty().bind(heightProperty());
 
@@ -146,12 +147,12 @@ public class HoveringPointTrackerScene extends Scene {
         rectangle.translateYProperty().bind(properties.minYProperty().add(properties.edgeWidthProperty()));
         rectangle.widthProperty().bind(properties.widthProperty().subtract(properties.edgeWidthProperty().multiply(2)));
         rectangle.heightProperty().bind(properties.heightProperty().subtract(properties.edgeWidthProperty().multiply(2)));
-        rectangle.fillProperty().bind(properties.paintFillProperty());
+        rectangle.fillProperty().bind(properties.paintColorProperty());
 
         horizontalGrid = new Line(0, 0, 0, 0);
         horizontalGrid.setMouseTransparent(true);
-        horizontalGrid.fillProperty().bind(properties.gridFillProperty());
-        horizontalGrid.strokeProperty().bind(properties.gridFillProperty());
+        horizontalGrid.fillProperty().bind(properties.gridColorProperty());
+        horizontalGrid.strokeProperty().bind(properties.gridColorProperty());
         horizontalGrid.startXProperty().bind(properties.minXProperty());
         horizontalGrid.endXProperty().bind(properties.minXProperty().add(properties.widthProperty()));
         horizontalGrid.startYProperty().bind(properties.currentYProperty());
@@ -159,8 +160,8 @@ public class HoveringPointTrackerScene extends Scene {
 
         verticalGrid = new Line(0, 0, 0, 0);
         verticalGrid.setMouseTransparent(true);
-        verticalGrid.fillProperty().bind(properties.gridFillProperty());
-        verticalGrid.strokeProperty().bind(properties.gridFillProperty());
+        verticalGrid.fillProperty().bind(properties.gridColorProperty());
+        verticalGrid.strokeProperty().bind(properties.gridColorProperty());
         verticalGrid.startXProperty().bind(properties.currentXProperty());
         verticalGrid.endXProperty().bind(properties.currentXProperty().add(1));
         verticalGrid.startYProperty().bind(properties.minYProperty());
@@ -169,7 +170,7 @@ public class HoveringPointTrackerScene extends Scene {
         pointLabel = new Label();
         pointLabel.setMouseTransparent(true);
         pointLabel.fontProperty().bind(properties.labelFontProperty());
-        pointLabel.textFillProperty().bind(properties.labelFillProperty());
+        pointLabel.textFillProperty().bind(properties.labelColorProperty());
         pointLabel.setEffect(new DropShadow());
         pointLabel.translateXProperty().bind(properties.minXProperty().add(properties.widthProperty()).subtract(pointLabel.widthProperty()).subtract(properties.edgeWidthProperty()));
         pointLabel.translateYProperty().bind(properties.minYProperty().add(properties.heightProperty()).subtract(pointLabel.heightProperty()).subtract(properties.edgeWidthProperty()));
@@ -177,22 +178,22 @@ public class HoveringPointTrackerScene extends Scene {
 
         xLabel = new Label();
         xLabel.fontProperty().bind(properties.labelFontProperty());
-        xLabel.textFillProperty().bind(properties.labelFillProperty());
+        xLabel.textFillProperty().bind(properties.labelColorProperty());
         xLabel.textProperty().bind(properties.minXProperty().asString("x = %.0f"));
 
         yLabel = new Label();
         yLabel.fontProperty().bind(properties.labelFontProperty());
-        yLabel.textFillProperty().bind(properties.labelFillProperty());
+        yLabel.textFillProperty().bind(properties.labelColorProperty());
         yLabel.textProperty().bind(properties.minYProperty().asString("y = %.0f"));
 
         wLabel = new Label();
         wLabel.fontProperty().bind(properties.labelFontProperty());
-        wLabel.textFillProperty().bind(properties.labelFillProperty());
+        wLabel.textFillProperty().bind(properties.labelColorProperty());
         wLabel.textProperty().bind(properties.widthProperty().asString("w = %.0f"));
 
         hLabel = new Label();
         hLabel.fontProperty().bind(properties.labelFontProperty());
-        hLabel.textFillProperty().bind(properties.labelFillProperty());
+        hLabel.textFillProperty().bind(properties.labelColorProperty());
         hLabel.textProperty().bind(properties.heightProperty().asString("h = %.0f"));
 
         rectLabelContainer = new VBox(xLabel, yLabel, wLabel, hLabel);
@@ -204,7 +205,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableTopEdge = new Rectangle();
         expandableTopEdge.setCursor(Cursor.N_RESIZE);
-        expandableTopEdge.fillProperty().bind(properties.edgeFillProperty());
+        expandableTopEdge.fillProperty().bind(properties.edgeColorProperty());
         expandableTopEdge.translateXProperty().bind(properties.minXProperty().add(properties.edgeWidthProperty()));
         expandableTopEdge.translateYProperty().bind(properties.minYProperty());
         expandableTopEdge.widthProperty().bind(properties.widthProperty().subtract(properties.edgeWidthProperty().multiply(2)));
@@ -212,7 +213,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableRightEdge = new Rectangle();
         expandableRightEdge.setCursor(Cursor.E_RESIZE);
-        expandableRightEdge.fillProperty().bind(properties.edgeFillProperty());
+        expandableRightEdge.fillProperty().bind(properties.edgeColorProperty());
         expandableRightEdge.translateXProperty().bind(properties.minXProperty().add(properties.widthProperty()).subtract(properties.edgeWidthProperty()));
         expandableRightEdge.translateYProperty().bind(properties.minYProperty().add(properties.edgeWidthProperty()));
         expandableRightEdge.widthProperty().bind(properties.edgeWidthProperty());
@@ -220,7 +221,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableBottomEdge = new Rectangle();
         expandableBottomEdge.setCursor(Cursor.S_RESIZE);
-        expandableBottomEdge.fillProperty().bind(properties.edgeFillProperty());
+        expandableBottomEdge.fillProperty().bind(properties.edgeColorProperty());
         expandableBottomEdge.translateXProperty().bind(properties.minXProperty().add(properties.edgeWidthProperty()));
         expandableBottomEdge.translateYProperty().bind(properties.minYProperty().add(properties.heightProperty()).subtract(properties.edgeWidthProperty()));
         expandableBottomEdge.widthProperty().bind(properties.widthProperty().subtract(properties.edgeWidthProperty().multiply(2)));
@@ -228,7 +229,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableLeftEdge = new Rectangle();
         expandableLeftEdge.setCursor(Cursor.W_RESIZE);
-        expandableLeftEdge.fillProperty().bind(properties.edgeFillProperty());
+        expandableLeftEdge.fillProperty().bind(properties.edgeColorProperty());
         expandableLeftEdge.translateXProperty().bind(properties.minXProperty());
         expandableLeftEdge.translateYProperty().bind(properties.minYProperty().add(properties.edgeWidthProperty()));
         expandableLeftEdge.widthProperty().bind(properties.edgeWidthProperty());
@@ -236,7 +237,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableTopLeftNode = new Rectangle();
         expandableTopLeftNode.setCursor(Cursor.NW_RESIZE);
-        expandableTopLeftNode.fillProperty().bind(properties.edgeFillProperty());
+        expandableTopLeftNode.fillProperty().bind(properties.edgeColorProperty());
         expandableTopLeftNode.translateXProperty().bind(properties.minXProperty());
         expandableTopLeftNode.translateYProperty().bind(properties.minYProperty());
         expandableTopLeftNode.widthProperty().bind(properties.edgeWidthProperty());
@@ -244,7 +245,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableTopRightNode = new Rectangle();
         expandableTopRightNode.setCursor(Cursor.NE_RESIZE);
-        expandableTopRightNode.fillProperty().bind(properties.edgeFillProperty());
+        expandableTopRightNode.fillProperty().bind(properties.edgeColorProperty());
         expandableTopRightNode.translateXProperty().bind(properties.minXProperty().add(properties.widthProperty()).subtract(properties.edgeWidthProperty()));
         expandableTopRightNode.translateYProperty().bind(properties.minYProperty());
         expandableTopRightNode.widthProperty().bind(properties.edgeWidthProperty());
@@ -252,7 +253,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableBottomRightNode = new Rectangle();
         expandableBottomRightNode.setCursor(Cursor.SE_RESIZE);
-        expandableBottomRightNode.fillProperty().bind(properties.edgeFillProperty());
+        expandableBottomRightNode.fillProperty().bind(properties.edgeColorProperty());
         expandableBottomRightNode.translateXProperty().bind(properties.minXProperty().add(properties.widthProperty()).subtract(properties.edgeWidthProperty()));
         expandableBottomRightNode.translateYProperty().bind(properties.minYProperty().add(properties.heightProperty()).subtract(properties.edgeWidthProperty()));
         expandableBottomRightNode.widthProperty().bind(properties.edgeWidthProperty());
@@ -260,7 +261,7 @@ public class HoveringPointTrackerScene extends Scene {
 
         expandableBottomLeftNode = new Rectangle();
         expandableBottomLeftNode.setCursor(Cursor.SW_RESIZE);
-        expandableBottomLeftNode.fillProperty().bind(properties.edgeFillProperty());
+        expandableBottomLeftNode.fillProperty().bind(properties.edgeColorProperty());
         expandableBottomLeftNode.translateXProperty().bind(properties.minXProperty());
         expandableBottomLeftNode.translateYProperty().bind(properties.minYProperty().add(properties.heightProperty()).subtract(properties.edgeWidthProperty()));
         expandableBottomLeftNode.widthProperty().bind(properties.edgeWidthProperty());
@@ -272,6 +273,7 @@ public class HoveringPointTrackerScene extends Scene {
         addEventHandler(MouseEvent.MOUSE_MOVED, this::updateCurrentCursorPositionHandler);
         addContextMenuRequestedEvent();
         addClickPointsEvent();
+        addScreenSizeListener();
 
         // Sceneの背景は透過
         setFill(Color.TRANSPARENT);
@@ -601,7 +603,7 @@ public class HoveringPointTrackerScene extends Scene {
             } else {
 
                 Circle circle = new Circle(CLICK_POINT_CIRCLE_RADIUS);
-                circle.fillProperty().bind(properties.clickPointFillProperty());
+                circle.fillProperty().bind(properties.clickPointColorProperty());
                 circle.setTranslateX(e.getSceneX());
                 circle.setTranslateY(e.getSceneY());
                 // クリックポイントにカーソルを合わせると座標をポップアップするように。
@@ -628,7 +630,7 @@ public class HoveringPointTrackerScene extends Scene {
                 Circle ripple = new Circle(CLICK_POINT_CIRCLE_RADIUS);
                 ripple.setMouseTransparent(true);
                 ripple.setFill(Color.TRANSPARENT);
-                ripple.strokeProperty().bind(properties.clickPointFillProperty());
+                ripple.strokeProperty().bind(properties.clickPointColorProperty());
                 ripple.setTranslateX(e.getSceneX());
                 ripple.setTranslateY(e.getSceneY());
                 root.getChildren().add(ripple);
@@ -689,7 +691,45 @@ public class HoveringPointTrackerScene extends Scene {
     }
 
     public void clearClickPoints() {
+        if (clickPoints == null) {
+            return;
+        }
+
         root.getChildren().removeAll(clickPoints);
         clickPoints.clear();
     }
+
+    private void addScreenSizeListener() {
+        // プロパティのスクリーン設定が変更されたときにウインドウのサイズを変更するリスナを登録
+        properties.screenProperty().addListener((ob, o, n) -> {
+            if (n == null) {
+                return;
+            }
+
+            Rectangle2D bounds = n.getBounds();
+
+            Window window = getWindow();
+            window.setX(bounds.getMinX());
+            window.setY(bounds.getMinY());
+            window.setWidth(bounds.getWidth());
+            window.setHeight(bounds.getHeight());
+        });
+        // 所属する親ウインドウが変更されたときにサイズを変更するリスナを登録
+        windowProperty().addListener((ob, o, n) -> {
+            if (n == null) {
+                return;
+            }
+            if (properties.getScreen() == null) {
+                return;
+            }
+
+            Rectangle2D bounds = properties.getScreen().getBounds();
+
+            n.setX(bounds.getMinX());
+            n.setY(bounds.getMinY());
+            n.setWidth(bounds.getWidth());
+            n.setHeight(bounds.getHeight());
+        });
+    }
+
 }
