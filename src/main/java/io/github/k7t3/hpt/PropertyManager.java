@@ -61,7 +61,9 @@ class PropertyManager {
 
         Properties p = new Properties();
 
-        p.setProperty(PROPERTY_DISPLAY, String.valueOf(properties.getScreen().hashCode()));
+        int screenHashCode = properties.getScreen() != null ? properties.getScreen().hashCode() : -1;
+
+        p.setProperty(PROPERTY_DISPLAY, String.valueOf(screenHashCode));
         p.setProperty(PROPERTY_MIN_X, String.valueOf(properties.getMinX()));
         p.setProperty(PROPERTY_MIN_Y, String.valueOf(properties.getMinY()));
         p.setProperty(PROPERTY_WIDTH, String.valueOf(properties.getWidth()));
@@ -73,6 +75,21 @@ class PropertyManager {
         p.setProperty(PROPERTY_LABEL_COLOR, properties.getLabelColor().toString());
         p.setProperty(PROPERTY_CLICK_POINT_COLOR, properties.getClickPointColor().toString());
         p.setProperty(PROPERTY_SCENE_BORDER_COLOR, properties.getSceneBorderColor().toString());
+
+        if (!Files.exists(PROPERTY_FILE_PATH.getParent())) {
+
+            try {
+
+                Files.createDirectories(PROPERTY_FILE_PATH.getParent());
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                return;
+
+            }
+
+        }
 
         try (OutputStream stream = Files.newOutputStream(PROPERTY_FILE_PATH)) {
 
@@ -103,10 +120,11 @@ class PropertyManager {
             int displayHashCode = Integer.parseInt(p.getProperty(PROPERTY_DISPLAY));
             double minX = Double.parseDouble(p.getProperty(PROPERTY_MIN_X));
             double minY = Double.parseDouble(p.getProperty(PROPERTY_MIN_Y));
-            double width = Double.parseDouble(PROPERTY_WIDTH);
-            double height = Double.parseDouble(PROPERTY_HEIGHT);
-            double edgeWidth = Double.parseDouble(PROPERTY_EDGE_WIDTH);
+            double width = Double.parseDouble(p.getProperty(PROPERTY_WIDTH));
+            double height = Double.parseDouble(p.getProperty(PROPERTY_HEIGHT));
+            double edgeWidth = Double.parseDouble(p.getProperty(PROPERTY_EDGE_WIDTH));
             Color paintColor = Color.valueOf(p.getProperty(PROPERTY_PAINT_COLOR));
+            Color gridColor = Color.valueOf(p.getProperty(PROPERTY_GRID_COLOR));
             Color edgeColor = Color.valueOf(p.getProperty(PROPERTY_EDGE_COLOR));
             Color labelColor = Color.valueOf(p.getProperty(PROPERTY_LABEL_COLOR));
             Color clickPointColor = Color.valueOf(p.getProperty(PROPERTY_CLICK_POINT_COLOR));
@@ -122,6 +140,7 @@ class PropertyManager {
             properties.setHeight(height);
             properties.setEdgeWidth(edgeWidth);
             properties.setPaintColor(paintColor);
+            properties.setGridColor(gridColor);
             properties.setEdgeColor(edgeColor);
             properties.setLabelColor(labelColor);
             properties.setClickPointColor(clickPointColor);

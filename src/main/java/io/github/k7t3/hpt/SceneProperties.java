@@ -6,7 +6,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 
-public class SceneProperties {
+public class SceneProperties implements Cloneable {
 
     private static final Color DEFAULT_PAINT_COLOR = Color.color(0d, 0d, 0d, 0.2);
 
@@ -60,6 +60,9 @@ public class SceneProperties {
     private ObjectProperty<Font> labelFont;
 
     public Screen getScreen() {
+        if (screen == null) {
+            return null;
+        }
         return screenProperty().get();
     }
 
@@ -75,6 +78,9 @@ public class SceneProperties {
     }
 
     public double getMinX() {
+        if (minX == null) {
+            return -1;
+        }
         return minXProperty().get();
     }
 
@@ -90,6 +96,9 @@ public class SceneProperties {
     }
 
     public double getMinY() {
+        if (minY == null) {
+            return -1;
+        }
         return minYProperty().get();
     }
 
@@ -105,6 +114,9 @@ public class SceneProperties {
     }
 
     public double getWidth() {
+        if (width == null) {
+            return -1;
+        }
         return widthProperty().get();
     }
 
@@ -120,6 +132,9 @@ public class SceneProperties {
     }
 
     public double getHeight() {
+        if (height == null) {
+            return -1;
+        }
         return heightProperty().get();
     }
 
@@ -135,6 +150,9 @@ public class SceneProperties {
     }
 
     public double getEdgeWidth() {
+        if (edgeWidth == null) {
+            return -1;
+        }
         return edgeWidthProperty().get();
     }
 
@@ -150,6 +168,9 @@ public class SceneProperties {
     }
 
     public Color getPaintColor() {
+        if (paintColor == null) {
+            return null;
+        }
         return paintColorProperty().get();
     }
 
@@ -165,6 +186,9 @@ public class SceneProperties {
     }
 
     public Color getGridColor() {
+        if (gridColor == null) {
+            return null;
+        }
         return gridColorProperty().get();
     }
 
@@ -180,6 +204,9 @@ public class SceneProperties {
     }
 
     public Color getSceneBorderColor() {
+        if (sceneBorderColor == null) {
+            return null;
+        }
         return sceneBorderColorProperty().get();
     }
 
@@ -195,6 +222,9 @@ public class SceneProperties {
     }
 
     public Color getLabelColor() {
+        if (labelColor == null) {
+            return null;
+        }
         return labelColorProperty().get();
     }
 
@@ -210,6 +240,9 @@ public class SceneProperties {
     }
 
     public Color getClickPointColor() {
+        if (clickPointColor == null) {
+            return null;
+        }
         return clickPointColorProperty().get();
     }
 
@@ -225,6 +258,9 @@ public class SceneProperties {
     }
 
     public double getCurrentX() {
+        if (currentX == null) {
+            return -1;
+        }
         return currentXProperty().get();
     }
 
@@ -240,6 +276,9 @@ public class SceneProperties {
     }
 
     public double getCurrentY() {
+        if (currentY == null) {
+            return -1;
+        }
         return currentYProperty().get();
     }
 
@@ -255,6 +294,9 @@ public class SceneProperties {
     }
 
     public Color getEdgeColor() {
+        if (edgeColor == null) {
+            return null;
+        }
         return edgeColorProperty().get();
     }
 
@@ -270,6 +312,9 @@ public class SceneProperties {
     }
 
     public Font getLabelFont() {
+        if (labelFont == null) {
+            return null;
+        }
         return labelFontProperty().get();
     }
 
@@ -282,5 +327,67 @@ public class SceneProperties {
 
     public void setLabelFont(Font labelFont) {
         this.labelFontProperty().set(labelFont);
+    }
+
+    @Override
+    public SceneProperties clone() {
+        try {
+            SceneProperties clone = (SceneProperties) super.clone();
+            if (clickPointColor != null) {
+                clone.clickPointColor = new SimpleObjectProperty<>();
+                clone.setClickPointColor(getClickPointColor());
+            }
+            if (edgeColor != null) {
+                clone.edgeColor = new SimpleObjectProperty<>();
+                clone.setEdgeColor(getEdgeColor());
+            }
+            if (edgeWidth != null) {
+                clone.edgeWidth = new SimpleDoubleProperty();
+                clone.setEdgeWidth(getEdgeWidth());
+            }
+            if (gridColor != null) {
+                clone.gridColor = new SimpleObjectProperty<>();
+                clone.setGridColor(getGridColor());
+            }
+            if (height != null) {
+                clone.height = new SimpleDoubleProperty();
+                clone.setHeight(getHeight());
+            }
+            if (labelColor != null) {
+                clone.labelColor = new SimpleObjectProperty<>();
+                clone.setLabelColor(getLabelColor());
+            }
+            if (labelFont != null) {
+                clone.labelFont = new SimpleObjectProperty<>();
+                clone.setLabelFont(getLabelFont());
+            }
+            if (minX != null) {
+                clone.minX = new SimpleDoubleProperty();
+                clone.setMinX(getMinX());
+            }
+            if (minY != null) {
+                clone.minY = new SimpleDoubleProperty();
+                clone.setMinY(getMinY());
+            }
+            if (paintColor != null) {
+                clone.paintColor = new SimpleObjectProperty<>();
+                clone.setPaintColor(getPaintColor());
+            }
+            if (sceneBorderColor != null) {
+                clone.sceneBorderColor = new SimpleObjectProperty<>();
+                clone.setSceneBorderColor(getSceneBorderColor());
+            }
+            if (screen != null) {
+                clone.screen = new SimpleObjectProperty<>();
+                clone.setScreen(getScreen());
+            }
+            if (width != null) {
+                clone.width = new SimpleDoubleProperty();
+                clone.setWidth(getWidth());
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

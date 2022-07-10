@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.DataFormat;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -55,7 +56,7 @@ public class HPTApplication extends Application {
         String format = """
                 設定を初期化して実行しますか？
                 
-                手動で修正する場合はキャンセル後、以下のファイルを修正してください。
+                手動で修正する場合は以下のファイルを修正してください。
                 %s
                 """;
 
@@ -63,7 +64,7 @@ public class HPTApplication extends Application {
         alert.setTitle("CONFIRMATION");
         alert.setHeaderText("設定の読み込みエラー");
         alert.setContentText(String.format(format, PropertyManager.PROPERTY_FILE_PATH));
-        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
         Optional<ButtonType> chosen = alert.showAndWait();
 
@@ -71,7 +72,7 @@ public class HPTApplication extends Application {
             return true;
         }
 
-        if (chosen.get() == ButtonType.CANCEL) {
+        if (chosen.get() == ButtonType.NO) {
             return true;
         }
 
@@ -122,19 +123,29 @@ public class HPTApplication extends Application {
             e.consume();
         });
 
-        MenuItem clearSavedPoints = new MenuItem("座標をすべて削除");
-        clearSavedPoints.setOnAction(e -> {
+        MenuItem clearSavedPointsMenuItem = new MenuItem("座標をすべて削除");
+        clearSavedPointsMenuItem.setOnAction(e -> {
             scene.clearClickPoints();
             e.consume();
+        });
+
+        MenuItem showPropertyMenuItem = new MenuItem("プロパティ");
+        showPropertyMenuItem.setOnAction(e -> {
+            PropertyViewController propertyView = new PropertyViewController(properties);
+            propertyView.initOwner(primaryStage);
+            propertyView.initModality(Modality.WINDOW_MODAL);
+            propertyView.showAndWait();
         });
 
         MenuItem closeMenuItem = new MenuItem("閉じる(_C)");
         closeMenuItem.setOnAction(e -> primaryStage.close());
 
         scene.getContextMenu().getItems().addAll(
-                clearSavedPoints,
+                clearSavedPointsMenuItem,
                 new SeparatorMenuItem(),
                 clipPointMenuItem,
+                new SeparatorMenuItem(),
+                showPropertyMenuItem,
                 new SeparatorMenuItem(),
                 closeMenuItem
         );
