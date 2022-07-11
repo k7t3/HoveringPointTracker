@@ -361,9 +361,19 @@ public class HoveringPointTrackerScene extends Scene {
 
             if (dragging) {
 
+                // 上下限付きの座標
+                var x = Math.max(
+                        distanceFromMinX,
+                        Math.min(e.getSceneX(), this.getWidth() - (properties.getWidth() - distanceFromMinX))
+                );
+                var y = Math.max(
+                        distanceFromMinY,
+                        Math.min(e.getSceneY(), this.getHeight() - (properties.getHeight() - distanceFromMinY))
+                );
+
                 // ドラッグ処理
-                properties.setMinX(e.getSceneX() - distanceFromMinX);
-                properties.setMinY(e.getSceneY() - distanceFromMinY);
+                properties.setMinX(x - distanceFromMinX);
+                properties.setMinY(y - distanceFromMinY);
                 // ドラッグ中も座標を追いかけるように
                 updateCurrentCursorPositionHandler(e);
 
@@ -494,24 +504,24 @@ public class HoveringPointTrackerScene extends Scene {
         double heightLimit = minHeightLimit.get();
 
         if (0d <= minX) {
-            minX = Math.min(properties.getMinX() + properties.getWidth() - widthLimit, minX);
+            minX = Math.max(0, Math.min(properties.getMinX() + properties.getWidth() - widthLimit, minX));
             double deltaX = properties.getMinX() - minX;
             properties.setMinX(minX);
             properties.setWidth(properties.getWidth() + deltaX);
         }
         if (0d <= minY) {
-            minY = Math.min(properties.getMinY() + properties.getHeight() - heightLimit, minY);
+            minY = Math.max(0, Math.min(properties.getMinY() + properties.getHeight() - heightLimit, minY));
             double deltaY = properties.getMinY() - minY;
             properties.setMinY(minY);
             properties.setHeight(properties.getHeight() + deltaY);
         }
         if (0d <= maxX) {
-            maxX = Math.max(properties.getMinX() + widthLimit, maxX);
+            maxX = Math.max(properties.getMinX() + widthLimit, Math.min(maxX, getWidth()));
             double deltaX = maxX - (properties.getMinX() + properties.getWidth());
             properties.setWidth(properties.getWidth() + deltaX);
         }
         if (0d <= maxY) {
-            maxY = Math.max(properties.getMinY() + heightLimit, maxY);
+            maxY = Math.max(properties.getMinY() + heightLimit, Math.min(maxY, getHeight()));
             double deltaY = maxY - (properties.getMinY() + properties.getHeight());
             properties.setHeight(properties.getHeight() + deltaY);
         }
@@ -572,7 +582,7 @@ public class HoveringPointTrackerScene extends Scene {
         });
     }
 
-    private static final double CLICK_POINT_CIRCLE_RADIUS = 2;
+    private static final double CLICK_POINT_CIRCLE_RADIUS = 3;
 
     private LinkedList<Circle> clickPoints;
 

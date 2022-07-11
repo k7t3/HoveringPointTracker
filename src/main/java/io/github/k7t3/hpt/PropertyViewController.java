@@ -43,9 +43,6 @@ public class PropertyViewController extends Stage implements Initializable {
     private ColorPicker clickPointColor;
 
     @FXML
-    private ColorPicker sceneBorderColor;
-
-    @FXML
     private Spinner<Double> xSpinner;
 
     @FXML
@@ -76,7 +73,7 @@ public class PropertyViewController extends Stage implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // ComboBoxで選んだスクリーンを変更したときにプレビューを表示するリスナを登録
-        displayComboBox.getSelectionModel().selectedItemProperty().addListener((ob, o, n) -> showStage(n));
+        displayComboBox.getSelectionModel().selectedItemProperty().addListener((ob, o, n) -> showPreviewStage(n));
         // ComboBoxをドロップダウンしたときに表示されるセルのファクトリ
         displayComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
@@ -138,22 +135,17 @@ public class PropertyViewController extends Stage implements Initializable {
 
         }
 
+        // 初期選択項目
         displayComboBox.getSelectionModel().select(screen);
-        showStage(screen);
+        showPreviewStage(screen);
+        setSpinnerProperties(screen.screen);
 
-        Rectangle2D screenBounds = screen.screen.getBounds();
-        xSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                screenBounds.getMinX(), screenBounds.getMaxX(), Math.max(screenBounds.getMinX(), Math.min(properties.getMinX(), screenBounds.getMaxX()))
-        ));
-        ySpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                screenBounds.getMinY(), screenBounds.getMaxY(), Math.max(screenBounds.getMinY(), Math.min(properties.getMinY(), screenBounds.getMaxY()))
-        ));
-        wSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                properties.getEdgeWidth() * 4, screenBounds.getMaxX(), Math.max(properties.getEdgeWidth() * 4, Math.min(properties.getWidth(), screenBounds.getMaxX()))
-        ));
-        hSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                properties.getEdgeWidth() * 4, screenBounds.getMaxY(), Math.max(properties.getEdgeWidth() * 4, Math.min(properties.getHeight(), screenBounds.getMaxY()))
-        ));
+        // ディスプレイを変更したらスピナの値を変更する。
+        displayComboBox.getSelectionModel().selectedItemProperty().addListener((ob, o, n) -> {
+            if (n != null) {
+                setSpinnerProperties(n.screen);
+            }
+        });
 
         Consumer<Spinner<Double>> assignStringConverter = (spinner) -> {
             spinner.getValueFactory().setConverter(new StringConverter<>() {
@@ -165,11 +157,16 @@ public class PropertyViewController extends Stage implements Initializable {
                 @Override
                 public Double fromString(String string) {
                     try {
+
                         return Double.parseDouble(string);
+
                     } catch (Exception e) {
+
+                        // Double型にパースできないときは元に戻す
                         spinner.getEditor().setText(toString(spinner.getValue()));
                         return spinner.getValue();
                     }
+
                 }
             });
         };
@@ -183,7 +180,6 @@ public class PropertyViewController extends Stage implements Initializable {
         edgeColor.setValue(properties.getEdgeColor());
         labelColor.setValue(properties.getLabelColor());
         clickPointColor.setValue(properties.getClickPointColor());
-        sceneBorderColor.setValue(properties.getSceneBorderColor());
 
         // この画面を閉じたときにプレビューが表示されていたら同時に閉じる。
         showingProperty().addListener((ob, o, n) -> {
@@ -200,15 +196,52 @@ public class PropertyViewController extends Stage implements Initializable {
         setScene(scene);
     }
 
+    /**
+     * 選択されたディスプレイに応じて座標・サイズのスピナーのプロパティを更新する。
+     * @param screen 選択されたディスプレイ
+     */
+    private void setSpinnerProperties(Screen screen) {
+        Rectangle2D screenBounds = screen.getBounds();
+
+        xSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                screenBounds.getMinX(),
+                screenBounds.getMaxX(),
+                Math.min(screenBounds.getMaxX(), Math.max(screenBounds.getMinX(), properties.getMinX()))
+        ));
+        ySpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                screenBounds.getMinY(),
+                screenBounds.getMaxY(),
+                Math.min(screenBounds.getMaxY(), Math.max(screenBounds.getMinY(), properties.getMinY()))
+        ));
+        // 幅と高さの下限値はラベルサイズに影響されるがここでは不明のためてきとうに設定。
+        wSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                properties.getEdgeWidth() * 4,
+                screenBounds.getMaxX(),
+                Math.max(properties.getEdgeWidth() * 4, Math.min(properties.getWidth(), screenBounds.getMaxX()))
+        ));
+        hSpinner.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+                properties.getEdgeWidth() * 4,
+                screenBounds.getMaxY(),
+                Math.max(properties.getEdgeWidth() * 4, Math.min(properties.getHeight(), screenBounds.getMaxY()))
+        ));
+    }
+
     private static final String SCREEN_FORMAT = "%s %d (%4.0f x %4.0f)";
 
     private String getScreenName(int number, double width, double height) {
         return String.format(SCREEN_FORMAT, "ディスプレイ", number, width, height);
     }
 
+    /**
+     * 選択しているディスプレイを表す透過Stage
+     */
     private Stage stage;
 
-    private void showStage(SelectableScreen screen) {
+    /**
+     * 選択しているディスプレイを判別するための透過Stageを表示する。
+     * @param screen 選択したディスプレイ
+     */
+    private void showPreviewStage(SelectableScreen screen) {
         if (stage != null) {
             stage.close();
         }
@@ -232,7 +265,6 @@ public class PropertyViewController extends Stage implements Initializable {
         properties.setEdgeColor(edgeColor.getValue());
         properties.setLabelColor(labelColor.getValue());
         properties.setClickPointColor(clickPointColor.getValue());
-        properties.setSceneBorderColor(sceneBorderColor.getValue());
         properties.setMinX(xSpinner.getValue());
         properties.setMinY(ySpinner.getValue());
         properties.setWidth(wSpinner.getValue());

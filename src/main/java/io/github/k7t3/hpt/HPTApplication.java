@@ -105,6 +105,7 @@ public class HPTApplication extends Application {
 
         // プロパティ設定画面を表示
         PropertyViewController controller = new PropertyViewController(properties);
+        controller.initModality(Modality.WINDOW_MODAL);
         controller.showAndWait();
 
         // キャンセルされていたら終了
@@ -142,7 +143,6 @@ public class HPTApplication extends Application {
 
         scene.getContextMenu().getItems().addAll(
                 clearSavedPointsMenuItem,
-                new SeparatorMenuItem(),
                 clipPointMenuItem,
                 new SeparatorMenuItem(),
                 showPropertyMenuItem,
