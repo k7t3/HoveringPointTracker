@@ -105,6 +105,7 @@ class PropertyManager {
     public void load() {
         if (!isSupported) {
             System.out.println("property manager unsupported.");
+            return;
         }
 
         if (!Files.exists(PROPERTY_FILE_PATH)) {

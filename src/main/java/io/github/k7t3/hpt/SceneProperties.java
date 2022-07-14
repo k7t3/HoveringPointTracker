@@ -25,6 +25,10 @@ public class SceneProperties implements Cloneable {
 
     private static final double DEFAULT_HEIGHT = 300;
 
+    private static final double DEFAULT_MIN_X = 200;
+
+    private static final double DEFAULT_MIN_Y = 200;
+
     private static final double DEFAULT_EDGE_WIDTH = 10;
 
     private static final Font DEFAULT_LABEL_FONT = Font.font("monospaced", FontWeight.BOLD, 13);
@@ -79,14 +83,14 @@ public class SceneProperties implements Cloneable {
 
     public double getMinX() {
         if (minX == null) {
-            return -1;
+            return DEFAULT_MIN_X;
         }
         return minXProperty().get();
     }
 
     public DoubleProperty minXProperty() {
         if (minX == null) {
-            minX = new SimpleDoubleProperty(200);
+            minX = new SimpleDoubleProperty(DEFAULT_MIN_X);
         }
         return minX;
     }
@@ -97,14 +101,14 @@ public class SceneProperties implements Cloneable {
 
     public double getMinY() {
         if (minY == null) {
-            return -1;
+            return DEFAULT_MIN_Y;
         }
         return minYProperty().get();
     }
 
     public DoubleProperty minYProperty() {
         if (minY == null) {
-            minY = new SimpleDoubleProperty(200);
+            minY = new SimpleDoubleProperty(DEFAULT_MIN_Y);
         }
         return minY;
     }
@@ -115,7 +119,7 @@ public class SceneProperties implements Cloneable {
 
     public double getWidth() {
         if (width == null) {
-            return -1;
+            return DEFAULT_WIDTH;
         }
         return widthProperty().get();
     }
@@ -133,7 +137,7 @@ public class SceneProperties implements Cloneable {
 
     public double getHeight() {
         if (height == null) {
-            return -1;
+            return DEFAULT_HEIGHT;
         }
         return heightProperty().get();
     }
@@ -151,7 +155,7 @@ public class SceneProperties implements Cloneable {
 
     public double getEdgeWidth() {
         if (edgeWidth == null) {
-            return -1;
+            return DEFAULT_EDGE_WIDTH;
         }
         return edgeWidthProperty().get();
     }
@@ -169,7 +173,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getPaintColor() {
         if (paintColor == null) {
-            return null;
+            return DEFAULT_PAINT_COLOR;
         }
         return paintColorProperty().get();
     }
@@ -187,7 +191,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getGridColor() {
         if (gridColor == null) {
-            return null;
+            return DEFAULT_GRID_FILL;
         }
         return gridColorProperty().get();
     }
@@ -205,7 +209,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getSceneBorderColor() {
         if (sceneBorderColor == null) {
-            return null;
+            return DEFAULT_SCENE_BORDER_FILL;
         }
         return sceneBorderColorProperty().get();
     }
@@ -223,7 +227,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getLabelColor() {
         if (labelColor == null) {
-            return null;
+            return DEFAULT_LABEL_FILL;
         }
         return labelColorProperty().get();
     }
@@ -241,7 +245,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getClickPointColor() {
         if (clickPointColor == null) {
-            return null;
+            return DEFAULT_CLICK_POINT_FILL;
         }
         return clickPointColorProperty().get();
     }
@@ -295,7 +299,7 @@ public class SceneProperties implements Cloneable {
 
     public Color getEdgeColor() {
         if (edgeColor == null) {
-            return null;
+            return DEFAULT_EDGE_COLOR;
         }
         return edgeColorProperty().get();
     }
@@ -313,7 +317,7 @@ public class SceneProperties implements Cloneable {
 
     public Font getLabelFont() {
         if (labelFont == null) {
-            return null;
+            return DEFAULT_LABEL_FONT;
         }
         return labelFontProperty().get();
     }
